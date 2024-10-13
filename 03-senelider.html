@@ -10,6 +10,9 @@
 <link href="03-senelider_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
+  <meta name="author" content="Paul Elvis Otto">
+  <meta name="author" content="Polina Ianina">
+  <meta name="author" content="Aditi Joshi">
   <title>Dynamic webscraping with senelider in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -328,8 +331,39 @@
   <h1 class="title">Dynamic webscraping with senelider in R</h1>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Paul Elvis Otto 
+</div>
+</div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Polina Ianina 
+</div>
+</div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Aditi Joshi 
+</div>
+</div>
 </div>
 
+</section>
+<section id="webscraping" class="slide level2">
+<h2>Webscraping?</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Left column</p>
+</div><div class="column" style="width:60%;">
+<p>Right column</p>
+</div></div>
+</section>
+<section class="slide level2">
+
+<div data-animate="" data-src="images/heart.svg"><!-- setup:
+  - element: "#heart"
+    modifier: function() { this.animate(1500).ease('<>').scale(.9).loop(true,true);}
+    parameters: [] --></div>
 </section>
 <section class="slide level2">
 
@@ -349,6 +383,9 @@
   <script src="03-senelider_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
   <script src="03-senelider_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="03-senelider_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/plugin.js"></script>
+  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/svg.min.js"></script>
+  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/js-yaml.min.js"></script>
   <script src="03-senelider_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -370,6 +407,7 @@
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'animate': {"autoplay":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -540,7 +578,7 @@
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealAnimate, QuartoSupport,
 
           RevealMath,
           RevealNotes,

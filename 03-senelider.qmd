@@ -1,5 +1,38 @@
 ---
 title: "Dynamic webscraping with senelider in R"
-format: revealjs
+format: 
+  revealjs: default
+revealjs-plugins:
+  - animate
+filters: 
+  - animate
+author: 
+    - "Paul Elvis Otto"
+    - "Polina Ianina"
+    - "Aditi Joshi"
 ---
 
+## Webscraping?
+
+:::: {.columns}
+
+::: {.column width="40%"}
+Left column
+:::
+
+::: {.column width="60%"}
+Right column
+:::
+
+::::
+
+---
+
+
+```yaml { .animate src="images/heart.svg"}
+setup:
+  - element: "#heart"
+    modifier: function() { this.animate(1500).ease('<>').scale(.9).loop(true,true);}
+    parameters: []
+```
+---
