@@ -10,7 +10,12 @@ author:
     - "Paul Elvis Otto"
     - "Polina Ianina"
     - "Aditi Joshi"
+css: style.css
 ---
+
+
+![by https://github.com/ashbythorpe, creator of selenider ](https://avatars.githubusercontent.com/u/61390103?v=4)
+
 
 ## Webscraping?
 
@@ -35,4 +40,4 @@ setup:
     modifier: function() { this.animate(1500).ease('<>').scale(.9).loop(true,true);}
     parameters: []
 ```
----
+--
