@@ -33,11 +33,3 @@ Right column
 
 ---
 
-
-```yaml { .animate src="images/heart.svg"}
-setup:
-  - element: "#heart"
-    modifier: function() { this.animate(1500).ease('<>').scale(.9).loop(true,true);}
-    parameters: []
-```
---
