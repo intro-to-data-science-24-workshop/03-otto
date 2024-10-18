@@ -1,0 +1,135 @@
+---
+title: "Dynamic Web Scraping with Selenider"
+author: 
+    - "Paul Elvis Otto"
+    - "Polina Ianina"
+    - "Aditi Joshi"
+format: revealjs
+execute: 
+  eval: false
+---
+
+# Introduction
+
+## What is Dynamic Web Scraping?
+
+*   Many websites load content dynamically using JavaScript.
+*   Traditional web scraping tools often struggle with this content.
+*   **Dynamic web scraping** uses tools that can render JavaScript and access the fully loaded page.
+
+## Why Selenider?
+
+*   **Selenider** is an R package for browser automation and web scraping.
+*   It provides a simple and powerful way to interact with websites like a human user.
+*   We can select elements, extract data, and even simulate user actions like clicking and typing.
+
+# Setting Up Selenider
+
+## Installation
+
+*   Install the package:
+
+```r
+install.packages("selenider")
+```
+
+## Starting a Session
+
+*   Load the library and start a session:
+
+```r
+#| eval: false
+library(selenider)
+session <- selenider_session()
+```
+
+*   This launches a browser controlled by Selenider.
+*   You can customize options like the browser (Chrome by default) and timeout.
+
+# Navigating and Selecting Elements
+
+## Opening a URL
+
+*   Use `open_url()` to navigate to the target website:
+
+```r
+open_url("https://www.example.com")
+```
+
+## Selecting Elements
+
+*   `s()` selects a single element using a CSS selector:
+
+```r
+header <- s("#main-header")
+```
+
+*   `ss()` selects multiple elements:
+
+```r
+links <- ss("a")
+```
+
+*   You can also use XPath selectors.
+
+## Finding Child Elements
+
+*   Use `find_element()` and `find_elements()` to target elements within a previously selected element.
+*   Chain these with the pipe operator (`|>`) for clear element paths:
+
+```r
+title <- s("#content") |> find_element("h1")
+```
+
+# Extracting Data
+
+## Element Properties
+
+*   `elem_text()` extracts the text content of an element:
+
+```r
+product_name <- s(".product-title") |> elem_text()
+```
+
+*   `elem_attr()` extracts an attribute value:
+
+```r
+link_url <- s("a") |> elem_attr("href")
+```
+
+## Interacting with Elements
+
+*   `elem_click()` simulates a mouse click:
+
+```r
+s("#load-more-button") |> elem_click()
+```
+
+*   This allows you to trigger dynamic content loading.
+
+# Waiting and Expectations
+
+## Waiting for Elements
+
+*   Dynamic content may take time to load.
+*   `elem_wait_until()` waits for a condition to be met:
+
+```r
+elem_wait_until(is_visible(s("#dynamic-content")))
+```
+
+## Testing Conditions
+
+*   `elem_expect()` ensures elements meet certain criteria:
+
+```r
+s("#results") |> elem_expect(has_at_least(5))
+```
+
+# Live Tutorial
+
+*   **Let's apply these concepts to a live web scraping scenario!**
+*   **Open the prepared practice materials.**
+*   **We'll walk through scraping a website with dynamic content.**
+
+ 

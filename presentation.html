@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="03-senelider_files/libs/clipboard/clipboard.min.js"></script>
-<script src="03-senelider_files/libs/quarto-html/tabby.min.js"></script>
-<script src="03-senelider_files/libs/quarto-html/popper.min.js"></script>
-<script src="03-senelider_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="03-senelider_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="03-senelider_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="03-senelider_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="03-senelider_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="presentation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentation_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.57">
 
   <meta name="author" content="Paul Elvis Otto">
   <meta name="author" content="Polina Ianina">
   <meta name="author" content="Aditi Joshi">
-  <title>Dynamic webscraping with senelider in R</title>
+  <title>Dynamic Web Scraping with Selenider</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="03-senelider_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="03-senelider_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -31,13 +31,77 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="03-senelider_files/libs/revealjs/dist/theme/quarto.css">
-  <link rel="stylesheet" href="style.css">
-  <link href="03-senelider_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="03-senelider_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="03-senelider_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="03-senelider_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -329,7 +393,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Dynamic webscraping with senelider in R</h1>
+  <h1 class="title">Dynamic Web Scraping with Selenider</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -350,21 +414,138 @@ Aditi Joshi
 </div>
 
 </section>
-<section class="slide level2">
+<section>
+<section id="introduction" class="title-slide slide level1 center">
+<h1>Introduction</h1>
 
-
-<img data-src="https://avatars.githubusercontent.com/u/61390103?v=4.png" class="r-stretch quarto-figure-center"><p class="caption">by https://github.com/ashbythorpe, creator of selenider</p></section>
-<section id="webscraping" class="slide level2">
-<h2>Webscraping?</h2>
-<div class="columns">
-<div class="column" style="width:40%;">
-<p>Left column</p>
-</div><div class="column" style="width:60%;">
-<p>Right column</p>
-</div></div>
 </section>
-<section class="slide level2">
+<section id="what-is-dynamic-web-scraping" class="slide level2">
+<h2>What is Dynamic Web Scraping?</h2>
+<ul>
+<li>Many websites load content dynamically using JavaScript.</li>
+<li>Traditional web scraping tools often struggle with this content.</li>
+<li><strong>Dynamic web scraping</strong> uses tools that can render JavaScript and access the fully loaded page.</li>
+</ul>
+</section>
+<section id="why-selenider" class="slide level2">
+<h2>Why Selenider?</h2>
+<ul>
+<li><strong>Selenider</strong> is an R package for browser automation and web scraping.</li>
+<li>It provides a simple and powerful way to interact with websites like a human user.</li>
+<li>We can select elements, extract data, and even simulate user actions like clicking and typing.</li>
+</ul>
+</section></section>
+<section>
+<section id="setting-up-selenider" class="title-slide slide level1 center">
+<h1>Setting Up Selenider</h1>
 
+</section>
+<section id="installation" class="slide level2">
+<h2>Installation</h2>
+<ul>
+<li>Install the package:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"selenider"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="starting-a-session" class="slide level2">
+<h2>Starting a Session</h2>
+<ul>
+<li>Load the library and start a session:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="fu">library</span>(selenider)</span>
+<span id="cb2-2"><a href=""></a>session <span class="ot">&lt;-</span> <span class="fu">selenider_session</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This launches a browser controlled by Selenider.</li>
+<li>You can customize options like the browser (Chrome by default) and timeout.</li>
+</ul>
+</section></section>
+<section>
+<section id="navigating-and-selecting-elements" class="title-slide slide level1 center">
+<h1>Navigating and Selecting Elements</h1>
+
+</section>
+<section id="opening-a-url" class="slide level2">
+<h2>Opening a URL</h2>
+<ul>
+<li>Use <code>open_url()</code> to navigate to the target website:</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="fu">open_url</span>(<span class="st">"https://www.example.com"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="selecting-elements" class="slide level2">
+<h2>Selecting Elements</h2>
+<ul>
+<li><code>s()</code> selects a single element using a CSS selector:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href=""></a>header <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"#main-header"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>ss()</code> selects multiple elements:</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a>links <span class="ot">&lt;-</span> <span class="fu">ss</span>(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>You can also use XPath selectors.</li>
+</ul>
+</section>
+<section id="finding-child-elements" class="slide level2">
+<h2>Finding Child Elements</h2>
+<ul>
+<li>Use <code>find_element()</code> and <code>find_elements()</code> to target elements within a previously selected element.</li>
+<li>Chain these with the pipe operator (<code>|&gt;</code>) for clear element paths:</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>title <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"#content"</span>) <span class="sc">|&gt;</span> <span class="fu">find_element</span>(<span class="st">"h1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section>
+<section id="extracting-data" class="title-slide slide level1 center">
+<h1>Extracting Data</h1>
+
+</section>
+<section id="element-properties" class="slide level2">
+<h2>Element Properties</h2>
+<ul>
+<li><code>elem_text()</code> extracts the text content of an element:</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>product_name <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">".product-title"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_text</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><code>elem_attr()</code> extracts an attribute value:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>link_url <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"a"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_attr</span>(<span class="st">"href"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="interacting-with-elements" class="slide level2">
+<h2>Interacting with Elements</h2>
+<ul>
+<li><code>elem_click()</code> simulates a mouse click:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="fu">s</span>(<span class="st">"#load-more-button"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_click</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This allows you to trigger dynamic content loading.</li>
+</ul>
+</section></section>
+<section>
+<section id="waiting-and-expectations" class="title-slide slide level1 center">
+<h1>Waiting and Expectations</h1>
+
+</section>
+<section id="waiting-for-elements" class="slide level2">
+<h2>Waiting for Elements</h2>
+<ul>
+<li>Dynamic content may take time to load.</li>
+<li><code>elem_wait_until()</code> waits for a condition to be met:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a><span class="fu">elem_wait_until</span>(<span class="fu">is_visible</span>(<span class="fu">s</span>(<span class="st">"#dynamic-content"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="testing-conditions" class="slide level2">
+<h2>Testing Conditions</h2>
+<ul>
+<li><code>elem_expect()</code> ensures elements meet certain criteria:</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">s</span>(<span class="st">"#results"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_expect</span>(<span class="fu">has_at_least</span>(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section></section>
+<section id="live-tutorial" class="title-slide slide level1 center">
+<h1>Live Tutorial</h1>
+<ul>
+<li><strong>Let’s apply these concepts to a live web scraping scenario!</strong></li>
+<li><strong>Open the prepared practice materials.</strong></li>
+<li><strong>We’ll walk through scraping a website with dynamic content.</strong></li>
+</ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
@@ -375,22 +556,19 @@ Aditi Joshi
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="03-senelider_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="presentation_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="03-senelider_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/plugin.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/svg.min.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/reveal-animate/js-yaml.min.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="03-senelider_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="03-senelider_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -405,7 +583,6 @@ Aditi Joshi
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'animate': {"autoplay":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -576,7 +753,7 @@ Aditi Joshi
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealAnimate, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
 
           RevealMath,
           RevealNotes,
