@@ -4,7 +4,10 @@ author:
     - "Paul Elvis Otto"
     - "Polina Ianina"
     - "Aditi Joshi"
-format: revealjs
+format: 
+  revealjs:
+    theme: solarized
+
 execute: 
   eval: false
 ---
