@@ -13,7 +13,7 @@ execute:
 
 # Introduction 
 
-## What is Dynamic Web Scraping? {background-video="gradient.mp4" background-video-loop="true" background-video-muted="true" background-size="cover" background-opacity=1}
+## What is Dynamic Web Scraping?
 
 *   Many websites load content dynamically using JavaScript.
 *   Traditional web scraping tools often struggle with this content.

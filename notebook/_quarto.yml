@@ -1,0 +1,15 @@
+project:
+  type: manuscript
+
+manuscript:
+  article: index.qmd
+
+format: html
+  # pdf: default
+
+execute:
+  freeze: false
+  echo: true
+
+
+
