@@ -6,15 +6,14 @@ author:
     - "Aditi Joshi"
 format: 
   revealjs:
-    theme: solarized
-
+    theme: default
 execute: 
   eval: false
 ---
 
-# Introduction
+# Introduction 
 
-## What is Dynamic Web Scraping?
+## What is Dynamic Web Scraping? {background-video="gradient.mp4" background-video-loop="true" background-video-muted="true" background-size="cover" background-opacity=1}
 
 *   Many websites load content dynamically using JavaScript.
 *   Traditional web scraping tools often struggle with this content.
