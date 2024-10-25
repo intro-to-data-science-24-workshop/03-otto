@@ -419,7 +419,7 @@ Aditi Joshi
 <h1>Introduction</h1>
 
 </section>
-<section id="static-and-dynamic" class="slide level2">
+<section id="static-and-dynamic" class="slide level2 center">
 <h2>Static and Dynamic?</h2>
 <div class="center">
 <div class="fragment fade-in-then-semi-out">
@@ -429,10 +429,6 @@ Aditi Joshi
 </section>
 <section class="slide level2">
 
-</section></section>
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
-<div class="fragment fade-in">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Classical Webscraping</p>
@@ -449,15 +445,13 @@ Aditi Joshi
 <li class="fragment">Interactions like, click scroll and so on</li>
 </ul>
 </div></div>
-</div>
-</section>
-
+</section></section>
 <section>
 <section id="so-whats-the-problem-here" class="title-slide slide level1 center">
 <h1>So whats the problem here?</h1>
 
 </section>
-<section id="so-whats-the-problem-here-1" class="slide level2">
+<section id="so-whats-the-problem-here-1" class="slide level2 center">
 <h2>So whats the problem here?</h2>
 <div class="fragment fade-in">
 <div class="fragment highlight-red">
@@ -542,127 +536,171 @@ Aditi Joshi
 <li>You can customize options like the browser (Chrome by default) and timeout.</li>
 </ul>
 </div>
-</section>
-<section id="great-after-we-now-know-how-to-setup-we-can-move-to-the-important-things" class="slide level2 center" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">Great after we now know how to setup we can move to the important things</h2>
-</section>
-<section id="great-after-we-now-know-how-to-setup-we-can-move-to-the-important-things-1" class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">Great after we now know how to setup we can move to the important things</h2>
-<div class="fragment fade-in">
-<div class="fragment highlight-current-green">
-<div class="fragment semi-fade-out">
-
-</div>
-</div>
-</div>
-<div class="fragment fade-in">
-<div class="fragment highlight-current-green">
-<div class="fragment semi-fade-out">
-
-</div>
-</div>
-</div>
-<div class="fragment fade-in">
-<div class="fragment highlight-current-green">
-<div class="fragment semi-fade-out">
-
-</div>
-</div>
-</div>
 </section></section>
 <section>
-<section id="navigating-and-selecting-elements" class="title-slide slide level1 center">
-<h1>Navigating and Selecting Elements</h1>
+<section id="lets-go-top-down" class="title-slide slide level1 center">
+<h1>Let’s go top down!</h1>
 
 </section>
-<section id="opening-a-url" class="slide level2">
-<h2>Opening a URL</h2>
+<section id="lets-go-top-down-1" class="slide level2 center">
+<h2>Let’s go top down!</h2>
+<div class="fragment highlight-green">
 <ul>
-<li>Use <code>open_url()</code> to navigate to the target website:</li>
+<li>We want to collect the blogposts of the FDP from their website</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="fu">open_url</span>(<span class="st">"https://www.example.com"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment highlight-red">
+<ul>
+<li>The problem, the posts are dynamicaly loaded</li>
+</ul>
+</div>
+<div class="fragment fade-in">
+<ul>
+<li>A perfect usecase for selenider!</li>
+</ul>
+</div>
 </section>
-<section id="selecting-elements" class="slide level2">
-<h2>Selecting Elements</h2>
-<ul>
-<li><code>s()</code> selects a single element using a CSS selector:</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a>header <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"#main-header"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li><code>ss()</code> selects multiple elements:</li>
-</ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a>links <span class="ot">&lt;-</span> <span class="fu">ss</span>(<span class="st">"a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>You can also use XPath selectors.</li>
-</ul>
+<section id="the-code" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">The Code</h2>
+<div class="fragment fade-in">
+<p>to start we will take care of something that you will encounter a lot</p>
+</div>
+<div class="fragment fade-in-then-highlight-red">
+<p>cookiebanner</p>
+</div>
+<div class="fragment">
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a href=""></a><span class="co"># Make the Session</span></span>
+<span id="cb5-2" class="hljs-ln-code"><a href=""></a>session <span class="ot">&lt;-</span> <span class="fu">selenider_session</span>(</span>
+<span id="cb5-3" class="hljs-ln-code"><a href=""></a>  <span class="st">"chromote"</span>,</span>
+<span id="cb5-4" class="hljs-ln-code"><a href=""></a>  <span class="at">timeout =</span> <span class="dv">10</span></span>
+<span id="cb5-5" class="hljs-ln-code"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="finding-child-elements" class="slide level2">
-<h2>Finding Child Elements</h2>
-<ul>
-<li>Use <code>find_element()</code> and <code>find_elements()</code> to target elements within a previously selected element.</li>
-<li>Chain these with the pipe operator (<code>|&gt;</code>) for clear element paths:</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>title <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"#content"</span>) <span class="sc">|&gt;</span> <span class="fu">find_element</span>(<span class="st">"h1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section></section>
-<section>
-<section id="extracting-data" class="title-slide slide level1 center">
-<h1>Extracting Data</h1>
-
+<section id="the-code-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">The Code</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a href=""></a><span class="co"># Make the Session</span></span>
+<span id="cb6-2" class="hljs-ln-code"><a href=""></a>session <span class="ot">&lt;-</span> <span class="fu">selenider_session</span>(</span>
+<span id="cb6-3" class="hljs-ln-code"><a href=""></a>  <span class="st">"chromote"</span>,</span>
+<span id="cb6-4" class="hljs-ln-code"><a href=""></a>  <span class="at">timeout =</span> <span class="dv">10</span></span>
+<span id="cb6-5" class="hljs-ln-code"><a href=""></a>)</span>
+<span id="cb6-6" class="hljs-ln-code"><a href=""></a></span>
+<span id="cb6-7" class="hljs-ln-code"><a href=""></a><span class="co"># Open the FDP blog article overview page</span></span>
+<span id="cb6-8" class="hljs-ln-code"><a href=""></a><span class="fu">open_url</span>(<span class="st">"https://www.fdp.de/uebersicht/artikel"</span>)</span>
+<span id="cb6-9" class="hljs-ln-code"><a href=""></a></span>
+<span id="cb6-10" class="hljs-ln-code"><a href=""></a><span class="co"># Handle the cookie banner if it appears (check if it is present)</span></span>
+<span id="cb6-11" class="hljs-ln-code"><a href=""></a>cookiebanner <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">'#consent-overlay-submit-all'</span>)</span>
+<span id="cb6-12" class="hljs-ln-code"><a href=""></a></span>
+<span id="cb6-13" class="hljs-ln-code"><a href=""></a><span class="co"># Check if the cookie banner is present before clicking</span></span>
+<span id="cb6-14" class="hljs-ln-code"><a href=""></a><span class="cf">if</span> (<span class="fu">elem_wait_until</span>(cookiebanner, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) {</span>
+<span id="cb6-15" class="hljs-ln-code"><a href=""></a>  <span class="fu">elem_click</span>(cookiebanner)</span>
+<span id="cb6-16" class="hljs-ln-code"><a href=""></a>  <span class="fu">reload</span>()</span>
+<span id="cb6-17" class="hljs-ln-code"><a href=""></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="element-properties" class="slide level2">
-<h2>Element Properties</h2>
+<section id="the-code-2" class="slide level2">
+<h2>The Code</h2>
+<div class="fragment">
+<p>so what did we do?</p>
+</div>
+<div class="fragment">
+<div>
+<div class="fade-in-then-semi-out">
 <ul>
-<li><code>elem_text()</code> extracts the text content of an element:</li>
+<li class="fragment">we used <code>open_url</code> to open the website</li>
+<li class="fragment">then we used the <code>s()</code> slector to get an elemtent</li>
+<li class="fragment">next we took that cookie element <code>cookiebanner</code></li>
+<li class="fragment">checked wether it is there, and then clicked it with <code>elem_click</code></li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a>product_name <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">".product-title"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_text</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li><code>elem_attr()</code> extracts an attribute value:</li>
-</ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href=""></a>link_url <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"a"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_attr</span>(<span class="st">"href"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="interacting-with-elements" class="slide level2">
-<h2>Interacting with Elements</h2>
-<ul>
-<li><code>elem_click()</code> simulates a mouse click:</li>
-</ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href=""></a><span class="fu">s</span>(<span class="st">"#load-more-button"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_click</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>This allows you to trigger dynamic content loading.</li>
-</ul>
-</section></section>
-<section>
-<section id="waiting-and-expectations" class="title-slide slide level1 center">
-<h1>Waiting and Expectations</h1>
-
+<section id="the-code-3" class="slide level2 center">
+<h2>The Code</h2>
+<p>Great! Now that we handled that we can move to the fun part.</p>
 </section>
-<section id="waiting-for-elements" class="slide level2">
-<h2>Waiting for Elements</h2>
-<ul>
-<li>Dynamic content may take time to load.</li>
-<li><code>elem_wait_until()</code> waits for a condition to be met:</li>
-</ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href=""></a><span class="fu">elem_wait_until</span>(<span class="fu">is_visible</span>(<span class="fu">s</span>(<span class="st">"#dynamic-content"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="testing-conditions" class="slide level2">
-<h2>Testing Conditions</h2>
-<ul>
-<li><code>elem_expect()</code> ensures elements meet certain criteria:</li>
-</ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href=""></a><span class="fu">s</span>(<span class="st">"#results"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_expect</span>(<span class="fu">has_at_least</span>(<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section></section>
-<section id="live-tutorial" class="title-slide slide level1 center">
-<h1>Live Tutorial</h1>
-<ul>
-<li><strong>Let’s apply these concepts to a live web scraping scenario!</strong></li>
-<li><strong>Open the prepared practice materials.</strong></li>
-<li><strong>We’ll walk through scraping a website with dynamic content.</strong></li>
-</ul>
+<section id="selecting-posts" class="slide level2">
+<h2>Selecting posts</h2>
+<div class="sourceCode" id="cb7" data-code-line-numbers="2|5|8|22-39|56-71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># Loop for 3 pages (adjust as needed)</span></span>
+<span id="cb7-2"><a href=""></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb7-3"><a href=""></a>  </span>
+<span id="cb7-4"><a href=""></a>  <span class="co"># Wait for articles to be present</span></span>
+<span id="cb7-5"><a href=""></a>  <span class="fu">elem_wait_until</span>(<span class="fu">s</span>(<span class="st">"a.mode-search"</span>), is_present, <span class="at">timeout =</span> <span class="dv">10</span>)</span>
+<span id="cb7-6"><a href=""></a>  </span>
+<span id="cb7-7"><a href=""></a>  <span class="co"># Extract all articles</span></span>
+<span id="cb7-8"><a href=""></a>  articles <span class="ot">&lt;-</span> <span class="fu">ss</span>(<span class="st">"a.mode-search"</span>)</span>
+<span id="cb7-9"><a href=""></a>  </span>
+<span id="cb7-10"><a href=""></a>  <span class="co"># Check if articles were found</span></span>
+<span id="cb7-11"><a href=""></a>  <span class="cf">if</span> (<span class="fu">length</span>(articles) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb7-12"><a href=""></a>    <span class="cf">break</span>  <span class="co"># Stop if no articles are found</span></span>
+<span id="cb7-13"><a href=""></a>  }</span>
+<span id="cb7-14"><a href=""></a>  </span>
+<span id="cb7-15"><a href=""></a>  <span class="co"># Initialize a list to store article information</span></span>
+<span id="cb7-16"><a href=""></a>  article_info <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-17"><a href=""></a>  </span>
+<span id="cb7-18"><a href=""></a>  <span class="co"># Loop through each article and extract information</span></span>
+<span id="cb7-19"><a href=""></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_along</span>(articles)) {</span>
+<span id="cb7-20"><a href=""></a>    article <span class="ot">&lt;-</span> articles[[j]]</span>
+<span id="cb7-21"><a href=""></a>    </span>
+<span id="cb7-22"><a href=""></a>    info <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
+<span id="cb7-23"><a href=""></a>      <span class="co"># Extract the URL</span></span>
+<span id="cb7-24"><a href=""></a>      url <span class="ot">&lt;-</span> <span class="fu">elem_attr</span>(article, <span class="st">"href"</span>)</span>
+<span id="cb7-25"><a href=""></a>      </span>
+<span id="cb7-26"><a href=""></a>      <span class="co"># Extract the title</span></span>
+<span id="cb7-27"><a href=""></a>      title_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"h3"</span>)</span>
+<span id="cb7-28"><a href=""></a>      title <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(title_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_text</span>(title_elem) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb7-29"><a href=""></a>      </span>
+<span id="cb7-30"><a href=""></a>      <span class="co"># Extract the date</span></span>
+<span id="cb7-31"><a href=""></a>      date_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"time"</span>)</span>
+<span id="cb7-32"><a href=""></a>      date <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(date_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_attr</span>(date_elem, <span class="st">"datetime"</span>) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb7-33"><a href=""></a>      </span>
+<span id="cb7-34"><a href=""></a>      <span class="co"># Extract the summary</span></span>
+<span id="cb7-35"><a href=""></a>      summary_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"p"</span>)</span>
+<span id="cb7-36"><a href=""></a>      summary <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(summary_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_text</span>(summary_elem) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb7-37"><a href=""></a>      </span>
+<span id="cb7-38"><a href=""></a>      <span class="co"># Return as a named list</span></span>
+<span id="cb7-39"><a href=""></a>      <span class="fu">list</span>(<span class="at">link =</span> url, <span class="at">title =</span> title, <span class="at">date =</span> date, <span class="at">summary =</span> summary)</span>
+<span id="cb7-40"><a href=""></a>      </span>
+<span id="cb7-41"><a href=""></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb7-42"><a href=""></a>      <span class="co"># Return NA values in case of error</span></span>
+<span id="cb7-43"><a href=""></a>      <span class="fu">list</span>(<span class="at">link =</span> <span class="cn">NA</span>, <span class="at">title =</span> <span class="cn">NA</span>, <span class="at">date =</span> <span class="cn">NA</span>, <span class="at">summary =</span> <span class="cn">NA</span>)</span>
+<span id="cb7-44"><a href=""></a>    })</span>
+<span id="cb7-45"><a href=""></a>    </span>
+<span id="cb7-46"><a href=""></a>    <span class="co"># Append the info to the list</span></span>
+<span id="cb7-47"><a href=""></a>    article_info[[j]] <span class="ot">&lt;-</span> info</span>
+<span id="cb7-48"><a href=""></a>  }</span>
+<span id="cb7-49"><a href=""></a>  </span>
+<span id="cb7-50"><a href=""></a>  <span class="co"># Combine the article info into a data frame</span></span>
+<span id="cb7-51"><a href=""></a>  page_info <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(article_info)</span>
+<span id="cb7-52"><a href=""></a>  </span>
+<span id="cb7-53"><a href=""></a>  <span class="co"># Add this page's articles to the overall data frame</span></span>
+<span id="cb7-54"><a href=""></a>  all_blog_info <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_blog_info, page_info)</span>
+<span id="cb7-55"><a href=""></a>  </span>
+<span id="cb7-56"><a href=""></a>  <span class="co"># Attempt to select the "Next" button</span></span>
+<span id="cb7-57"><a href=""></a>  next_button <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"a[rel='next']"</span>)</span>
+<span id="cb7-58"><a href=""></a>  </span>
+<span id="cb7-59"><a href=""></a>  <span class="co"># Check if the "Next" button is present before clicking</span></span>
+<span id="cb7-60"><a href=""></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">elem_wait_until</span>(next_button, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) {</span>
+<span id="cb7-61"><a href=""></a>    <span class="cf">break</span>  <span class="co"># Stop if there is no next button</span></span>
+<span id="cb7-62"><a href=""></a>  }</span>
+<span id="cb7-63"><a href=""></a>  </span>
+<span id="cb7-64"><a href=""></a>  <span class="co"># Scroll to the "Next" button before clicking</span></span>
+<span id="cb7-65"><a href=""></a>  <span class="fu">elem_scroll_to</span>(next_button)</span>
+<span id="cb7-66"><a href=""></a>  </span>
+<span id="cb7-67"><a href=""></a>  <span class="co"># Click the "Next" button</span></span>
+<span id="cb7-68"><a href=""></a>  <span class="fu">elem_click</span>(next_button)</span>
+<span id="cb7-69"><a href=""></a>  </span>
+<span id="cb7-70"><a href=""></a>  <span class="co"># Wait for the next page to load</span></span>
+<span id="cb7-71"><a href=""></a>  <span class="fu">elem_wait_until</span>(<span class="fu">s</span>(<span class="st">"a.mode-search"</span>), is_present, <span class="at">timeout =</span> <span class="dv">10</span>)</span>
+<span id="cb7-72"><a href=""></a>}</span>
+<span id="cb7-73"><a href=""></a></span>
+<span id="cb7-74"><a href=""></a><span class="co"># Show the data frame with all articles, titles, dates, and summaries</span></span>
+<span id="cb7-75"><a href=""></a><span class="fu">print</span>(all_blog_info)<span class="st">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 

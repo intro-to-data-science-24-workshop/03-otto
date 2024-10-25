@@ -16,7 +16,7 @@ eval: false
 
 # Introduction 
 
-## Static and Dynamic?
+## Static and Dynamic?{.center}
 
 
 :::{.center}
@@ -30,9 +30,7 @@ What is the difference?
 
 
 
-# {.center}
 
-:::::{.fragment .fade-in}
 
 :::: {.columns}
 
@@ -55,12 +53,11 @@ Dynamic Webscraping
 
 ::::
 
-:::::
 
 
 # So whats the problem here? 
 
-## So whats the problem here?
+## So whats the problem here?{.center}
 
 ::: {.fragment .fade-in}
 ::: {.fragment .highlight-red}
@@ -147,116 +144,181 @@ session <- selenider_session(
 
 
 
-## Great after we now know how to setup we can move to the important things{.center auto-animate="true"}
+# Let's go top down!
 
-## Great after we now know how to setup we can move to the important things{auto-animate="true" }
 
-::: {.fragment .fade-in}
-::: {.fragment .highlight-current-green}
-::: {.fragment .semi-fade-out}
+## Let's go top down!{.center}
 
-:::
-:::
+::: {.fragment .highlight-green}
+- We want to collect the blogposts of the FDP from their website
 :::
 
-::: {.fragment .fade-in}
-::: {.fragment .highlight-current-green}
-::: {.fragment .semi-fade-out}
-:::
-:::
+::: {.fragment .highlight-red}
+- The problem, the posts are dynamicaly loaded
 :::
 
 ::: {.fragment .fade-in}
-::: {.fragment .highlight-current-green}
-::: {.fragment .semi-fade-out}
+- A perfect usecase for selenider! 
+:::
+
+
+## The Code{auto-animate="true"}
+
+::: {.fragment .fade-in}
+to start we will take care of something that you will encounter a lot
+:::
+
+::: {.fragment .fade-in-then-highlight-red }
+cookiebanner
+:::
+
+::: {.fragment}
+```{.r}
+# Make the Session
+session <- selenider_session(
+  "chromote",
+  timeout = 10
+)
+```
+:::
+
+
+## The Code{auto-animate="true"}
+
+```{.r}
+# Make the Session
+session <- selenider_session(
+  "chromote",
+  timeout = 10
+)
+
+# Open the FDP blog article overview page
+open_url("https://www.fdp.de/uebersicht/artikel")
+
+# Handle the cookie banner if it appears (check if it is present)
+cookiebanner <- s('#consent-overlay-submit-all')
+
+# Check if the cookie banner is present before clicking
+if (elem_wait_until(cookiebanner, is_present, timeout = 5)) {
+  elem_click(cookiebanner)
+  reload()
+}
+```
+## The Code
+
+::: {.fragment}
+so what did we do?
+:::
+
+::: {.fragment}
+::: {.incremental}
+::: {.fade-in-then-semi-out}
+- we used `open_url` to open the website
+- then we used the `s()` slector to get an elemtent
+- next we took that cookie element `cookiebanner` 
+- checked wether it is there, and then clicked it with `elem_click`
 :::
 :::
 :::
 
-# Navigating and Selecting Elements
+## The Code{.center}
 
-## Opening a URL
+Great! Now that we handled that we can move to the fun part. 
 
-*   Use `open_url()` to navigate to the target website:
 
-```r
-open_url("https://www.example.com")
+## Selecting posts
+
+
+
+
+```{.r code-line-numbers="2|5|8|22-39|56-71"}
+# Loop for 3 pages (adjust as needed)
+for (i in 1:3) {
+  
+  # Wait for articles to be present
+  elem_wait_until(s("a.mode-search"), is_present, timeout = 10)
+  
+  # Extract all articles
+  articles <- ss("a.mode-search")
+  
+  # Check if articles were found
+  if (length(articles) == 0) {
+    break  # Stop if no articles are found
+  }
+  
+  # Initialize a list to store article information
+  article_info <- list()
+  
+  # Loop through each article and extract information
+  for (j in seq_along(articles)) {
+    article <- articles[[j]]
+    
+    info <- tryCatch({
+      # Extract the URL
+      url <- elem_attr(article, "href")
+      
+      # Extract the title
+      title_elem <- find_element(article, "h3")
+      title <- if (elem_wait_until(title_elem, is_present, timeout = 5)) elem_text(title_elem) else NA
+      
+      # Extract the date
+      date_elem <- find_element(article, "time")
+      date <- if (elem_wait_until(date_elem, is_present, timeout = 5)) elem_attr(date_elem, "datetime") else NA
+      
+      # Extract the summary
+      summary_elem <- find_element(article, "p")
+      summary <- if (elem_wait_until(summary_elem, is_present, timeout = 5)) elem_text(summary_elem) else NA
+      
+      # Return as a named list
+      list(link = url, title = title, date = date, summary = summary)
+      
+    }, error = function(e) {
+      # Return NA values in case of error
+      list(link = NA, title = NA, date = NA, summary = NA)
+    })
+    
+    # Append the info to the list
+    article_info[[j]] <- info
+  }
+  
+  # Combine the article info into a data frame
+  page_info <- bind_rows(article_info)
+  
+  # Add this page's articles to the overall data frame
+  all_blog_info <- bind_rows(all_blog_info, page_info)
+  
+  # Attempt to select the "Next" button
+  next_button <- s("a[rel='next']")
+  
+  # Check if the "Next" button is present before clicking
+  if (!elem_wait_until(next_button, is_present, timeout = 5)) {
+    break  # Stop if there is no next button
+  }
+  
+  # Scroll to the "Next" button before clicking
+  elem_scroll_to(next_button)
+  
+  # Click the "Next" button
+  elem_click(next_button)
+  
+  # Wait for the next page to load
+  elem_wait_until(s("a.mode-search"), is_present, timeout = 10)
+}
+
+# Show the data frame with all articles, titles, dates, and summaries
+print(all_blog_info)```
 ```
 
-## Selecting Elements
 
-*   `s()` selects a single element using a CSS selector:
 
-```r
-header <- s("#main-header")
-```
 
-*   `ss()` selects multiple elements:
 
-```r
-links <- ss("a")
-```
 
-*   You can also use XPath selectors.
 
-## Finding Child Elements
 
-*   Use `find_element()` and `find_elements()` to target elements within a previously selected element.
-*   Chain these with the pipe operator (`|>`) for clear element paths:
 
-```r
-title <- s("#content") |> find_element("h1")
-```
 
-# Extracting Data
 
-## Element Properties
 
-*   `elem_text()` extracts the text content of an element:
 
-```r
-product_name <- s(".product-title") |> elem_text()
-```
 
-*   `elem_attr()` extracts an attribute value:
-
-```r
-link_url <- s("a") |> elem_attr("href")
-```
-
-## Interacting with Elements
-
-*   `elem_click()` simulates a mouse click:
-
-```r
-s("#load-more-button") |> elem_click()
-```
-
-*   This allows you to trigger dynamic content loading.
-
-# Waiting and Expectations
-
-## Waiting for Elements
-
-*   Dynamic content may take time to load.
-*   `elem_wait_until()` waits for a condition to be met:
-
-```r
-elem_wait_until(is_visible(s("#dynamic-content")))
-```
-
-## Testing Conditions
-
-*   `elem_expect()` ensures elements meet certain criteria:
-
-```r
-s("#results") |> elem_expect(has_at_least(5))
-```
-
-# Live Tutorial
-
-*   **Let's apply these concepts to a live web scraping scenario!**
-*   **Open the prepared practice materials.**
-*   **We'll walk through scraping a website with dynamic content.**
-
- 
