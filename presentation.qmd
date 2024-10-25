@@ -4,49 +4,174 @@ author:
     - "Paul Elvis Otto"
     - "Polina Ianina"
     - "Aditi Joshi"
-format: 
-  revealjs:
-    theme: default
-execute: 
-  eval: false
+format:
+  revealjs: 
+    theme: [dark, styles.scss]
+    title-slide-attributes: 
+      data-background-color: "#4e4e4e"
+      data-background-image: none
+
+eval: false
 ---
 
 # Introduction 
 
-## What is Dynamic Web Scraping?
+## Static and Dynamic?
 
-*   Many websites load content dynamically using JavaScript.
-*   Traditional web scraping tools often struggle with this content.
-*   **Dynamic web scraping** uses tools that can render JavaScript and access the fully loaded page.
+
+:::{.center}
+:::{.fragment .fade-in-then-semi-out}
+
+What is the difference?
+:::
+:::
+
+---
+
+
+
+# {.center}
+
+:::::{.fragment .fade-in}
+
+:::: {.columns}
+
+::: {.column width="50%" .incremental}
+Classical Webscraping
+
+- HTML is static and fully loaded on the server-side
+- Calssical usecases: Blogs, Newspaper 
+- No interaction with the elements of the site to load content
+:::
+
+::: {.column width="50%" .incremental}
+Dynamic Webscraping
+
+- Content is rendered via JavaScript on the client side
+- Infinite scroling sites, Single page applications
+- Interactions like, click scroll and so on
+
+:::
+
+::::
+
+:::::
+
+
+# So whats the problem here? 
+
+## So whats the problem here?
+
+::: {.fragment .fade-in}
+::: {.fragment .highlight-red}
+::: {.fragment .semi-fade-out}
+When content is not rendered, we cant just access it
+:::
+:::
+:::
+
+::: {.fragment .fade-in}
+::: {.fragment .highlight-green}
+therefore we need to simulate the interaction, like a person with a browser
+:::
+:::
+
+# How can we do that?
+
+# With Selenider
+
+
 
 ## Why Selenider?
 
-*   **Selenider** is an R package for browser automation and web scraping.
-*   It provides a simple and powerful way to interact with websites like a human user.
-*   We can select elements, extract data, and even simulate user actions like clicking and typing.
+*   **Selenider** is an R package for browser automation and web scraping
+*   It provides a simple and powerful way to interact with websites like a human user
+*   We can select elements, extract data, and even simulate user actions like clicking and scroling
 
 # Setting Up Selenider
 
-## Installation
+## Installation{auto-animate="true"}
+Selenider often throws problems when installing, to tackle these we will do the following
 
-*   Install the package:
+## Installation{auto-animate="true"}
 
-```r
-install.packages("selenider")
+Selenider often throws problems when installing, to tackle these we will do the following
+
+```{.r code-line-numbers="1|2|3|"}
+install.packages("renv")
+library(renv)
+renv::init()
+renv::activate()
 ```
 
-## Starting a Session
+## Installation{auto-animate="true"}
+
+Selenider often throws problems when installing, to tackle these we will do the following
+
+```{.r code-line-numbers="5|6|7|"}
+install.packages("renv")
+library(renv)
+renv::init()
+renv::activate()
+# Selenider also needs a webdirver to run
+install.packages("selenider")
+install.packages("chromote")
+
+```
+
+## Starting a Session {auto-animate="true"}
+
 
 *   Load the library and start a session:
 
-```r
-#| eval: false
+```{.r}
 library(selenider)
-session <- selenider_session()
 ```
 
+## Starting a Session {auto-animate="true"}
+
+*   Load the library and start a session:
+
+```{.r code-line-numbers="|2|3-6|"}
+library(selenider)
+# open the session
+session <- selenider_session(
+  "chromote",
+  timeout = 10
+)
+```
+::: {.fragment .fade-in}
 *   This launches a browser controlled by Selenider.
 *   You can customize options like the browser (Chrome by default) and timeout.
+:::
+
+
+
+## Great after we now know how to setup we can move to the important things{.center auto-animate="true"}
+
+## Great after we now know how to setup we can move to the important things{auto-animate="true" }
+
+::: {.fragment .fade-in}
+::: {.fragment .highlight-current-green}
+::: {.fragment .semi-fade-out}
+
+:::
+:::
+:::
+
+::: {.fragment .fade-in}
+::: {.fragment .highlight-current-green}
+::: {.fragment .semi-fade-out}
+:::
+:::
+:::
+
+::: {.fragment .fade-in}
+::: {.fragment .highlight-current-green}
+::: {.fragment .semi-fade-out}
+:::
+:::
+:::
 
 # Navigating and Selecting Elements
 
