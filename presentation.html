@@ -8,7 +8,7 @@
 <link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.5.57">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="Paul Elvis Otto">
   <meta name="author" content="Polina Ianina">
@@ -44,7 +44,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -433,18 +433,19 @@ Aditi Joshi
 <div class="column" style="width:50%;">
 <p>Classical Webscraping</p>
 <ul>
-<li class="fragment">HTML is static and fully loaded on the server-side</li>
-<li class="fragment">Calssical usecases: Blogs, Newspaper</li>
+<li class="fragment">HTML is static and fully loaded on the server side</li>
+<li class="fragment">Classical use cases: Blogs, Newspapers</li>
 <li class="fragment">No interaction with the elements of the site to load content</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p>Dynamic Webscraping</p>
 <ul>
 <li class="fragment">Content is rendered via JavaScript on the client side</li>
-<li class="fragment">Infinite scroling sites, Single page applications</li>
-<li class="fragment">Interactions like, click scroll and so on</li>
+<li class="fragment">Infinite scrolling sites, Single-page applications</li>
+<li class="fragment">Interactions like click, scroll, and so on</li>
 </ul>
-</div></div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="so-whats-the-problem-here" class="title-slide slide level1 center">
@@ -456,13 +457,13 @@ Aditi Joshi
 <div class="fragment fade-in">
 <div class="fragment highlight-red">
 <div class="fragment semi-fade-out">
-<p>When content is not rendered, we cant just access it</p>
+<p>When content is not rendered, we can’t just access it</p>
 </div>
 </div>
 </div>
 <div class="fragment fade-in">
 <div class="fragment highlight-green">
-<p>therefore we need to simulate the interaction, like a person with a browser</p>
+<p>Therefore we need to simulate the interaction, like a person with a browser</p>
 </div>
 </div>
 </section></section>
@@ -479,9 +480,9 @@ Aditi Joshi
 <section id="why-selenider" class="slide level2">
 <h2>Why Selenider?</h2>
 <ul>
-<li><strong>Selenider</strong> is an R package for browser automation and web scraping</li>
-<li>It provides a simple and powerful way to interact with websites like a human user</li>
-<li>We can select elements, extract data, and even simulate user actions like clicking and scroling</li>
+<li><strong>Selenider</strong> is an R package for browser automation and web scraping.</li>
+<li>It provides a simple and powerful way to interact with websites like a human user.</li>
+<li>We can select elements, extract data, and even simulate user actions like clicking and scrolling.</li>
 </ul>
 </section></section>
 <section>
@@ -491,11 +492,11 @@ Aditi Joshi
 </section>
 <section id="installation" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Installation</h2>
-<p>Selenider often throws problems when installing, to tackle these we will do the following</p>
+<p>Selenider often throws problems when installing. To tackle these, we will do the following</p>
 </section>
 <section id="installation-1" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Installation</h2>
-<p>Selenider often throws problems when installing, to tackle these we will do the following</p>
+<p>Selenider often throws problems when installing. To tackle these, we will do the following</p>
 <div class="sourceCode" id="cb1" data-code-line-numbers="1|2|3|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb1-1" class="hljs-ln-code"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span>
 <span id="cb1-2" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(renv)</span>
 <span id="cb1-3" class="hljs-ln-code"><a href=""></a>renv<span class="sc">::</span><span class="fu">init</span>()</span>
@@ -503,7 +504,7 @@ Aditi Joshi
 </section>
 <section id="installation-2" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Installation</h2>
-<p>Selenider often throws problems when installing, to tackle these we will do the following</p>
+<p>Selenider often throws problems when installing. To tackle these, we will do the following</p>
 <div class="sourceCode" id="cb2" data-code-line-numbers="5|6|7|"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb2-1" class="hljs-ln-code"><a href=""></a><span class="fu">install.packages</span>(<span class="st">"renv"</span>)</span>
 <span id="cb2-2" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(renv)</span>
 <span id="cb2-3" class="hljs-ln-code"><a href=""></a>renv<span class="sc">::</span><span class="fu">init</span>()</span>
@@ -556,17 +557,17 @@ Aditi Joshi
 </div>
 <div class="fragment fade-in">
 <ul>
-<li>A perfect usecase for selenider!</li>
+<li>A perfect usecase for <strong>selenider</strong>!</li>
 </ul>
 </div>
 </section>
 <section id="the-code" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">The Code</h2>
 <div class="fragment fade-in">
-<p>to start we will take care of something that you will encounter a lot</p>
+<p>To start, we will take care of something that you will encounter a lot.</p>
 </div>
 <div class="fragment fade-in-then-highlight-red">
-<p>cookiebanner</p>
+<p>cookie banner</p>
 </div>
 <div class="fragment">
 <div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb5-1" class="hljs-ln-code"><a href=""></a><span class="co"># Make the Session</span></span>
@@ -599,16 +600,16 @@ Aditi Joshi
 <section id="the-code-2" class="slide level2">
 <h2>The Code</h2>
 <div class="fragment">
-<p>so what did we do?</p>
+<p>So what did we do?</p>
 </div>
 <div class="fragment">
 <div>
 <div class="fade-in-then-semi-out">
 <ul>
-<li class="fragment">we used <code>open_url</code> to open the website</li>
-<li class="fragment">then we used the <code>s()</code> slector to get an elemtent</li>
-<li class="fragment">next we took that cookie element <code>cookiebanner</code></li>
-<li class="fragment">checked wether it is there, and then clicked it with <code>elem_click</code></li>
+<li class="fragment">We used <code>open_url</code> to open the website.</li>
+<li class="fragment">Then we used the <code>s()</code> selector to get an element.</li>
+<li class="fragment">Next, we took that cookie element <code>cookiebanner</code>.</li>
+<li class="fragment">Checked whether it is there, and then clicked it with <code>elem_click</code>.</li>
 </ul>
 </div>
 </div>
@@ -616,7 +617,7 @@ Aditi Joshi
 </section>
 <section id="the-code-3" class="slide level2 center">
 <h2>The Code</h2>
-<p>Great! Now that we handled that we can move to the fun part.</p>
+<p>Great! Now that we have handled that, we can move to the fun part.</p>
 </section>
 <section id="selecting-posts" class="slide level2">
 <h2>Selecting posts</h2>
@@ -943,7 +944,18 @@ Aditi Joshi
         }
         return false;
       }
-      const onCopySuccess = function(e) {
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
         // button target
         const button = e.trigger;
         // don't keep focus
@@ -975,47 +987,7 @@ Aditi Joshi
         }, 1000);
         // clear code selection
         e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
-            }
-          }
-          return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
       });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        // For code content inside modals, clipBoardJS needs to be initialized with a container option
-        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-        }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
-            }
-          }
-        }
       function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
@@ -1052,11 +1024,7 @@ Aditi Joshi
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
-          }
+          return note.innerHTML;
         });
       }
       const findCites = (el) => {

@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.4.550">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>An Introduction to selenider</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+     <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">  
+      <meta name="citation_title" content="An Introduction to selenider">
+<meta name="citation_author" content="Paul Elvis Otto">
+<meta name="citation_author" content="Polina Ianina">
+<meta name="citation_author" content="Aditi Joshi">
+<meta name="citation_language" content="en">
+</head>
+
+  <body class="quarto-notebook">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Article Notebook</h6>
+
+            <a href="./index.qmd" class="btn btn-primary quarto-download-embed" download="index.qmd">Download Source</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">An Introduction to selenider</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+        
+        <div class="quarto-title-meta">
+
+                <div>
+            <div class="quarto-title-meta-heading">Authors</div>
+            <div class="quarto-title-meta-contents">
+                        <p>Paul Elvis Otto </p>
+                        <p>Polina Ianina </p>
+                        <p>Aditi Joshi </p>
+                      </div>
+          </div>
+                
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#about-this-notebook" id="toc-about-this-notebook" class="nav-link active" data-scroll-target="#about-this-notebook">About this Notebook</a>
+  <ul class="collapse">
+  <li><a href="#selenider-tutorial-a-guide-to-web-scraping-and-browser-automation-in-r" id="toc-selenider-tutorial-a-guide-to-web-scraping-and-browser-automation-in-r" class="nav-link" data-scroll-target="#selenider-tutorial-a-guide-to-web-scraping-and-browser-automation-in-r">Selenider Tutorial: A Guide to Web Scraping and Browser Automation in R</a></li>
+  <li><a href="#applications-beyond-web-scraping" id="toc-applications-beyond-web-scraping" class="nav-link" data-scroll-target="#applications-beyond-web-scraping">Applications beyond Web Scraping</a></li>
+  <li><a href="#importance-in-the-context-of-r" id="toc-importance-in-the-context-of-r" class="nav-link" data-scroll-target="#importance-in-the-context-of-r">Importance in the Context of R</a></li>
+  <li><a href="#key-features-of-selenider" id="toc-key-features-of-selenider" class="nav-link" data-scroll-target="#key-features-of-selenider">Key Features of Selenider</a></li>
+  </ul></li>
+  <li><a href="#let-us-understand-how-to-use-these-functions-for-web-scrapping" id="toc-let-us-understand-how-to-use-these-functions-for-web-scrapping" class="nav-link" data-scroll-target="#let-us-understand-how-to-use-these-functions-for-web-scrapping">Let us understand how to use these functions for web scrapping</a>
+  <ul class="collapse">
+  <li><a href="#ethical-considerations" id="toc-ethical-considerations" class="nav-link" data-scroll-target="#ethical-considerations">Ethical Considerations</a></li>
+  <li><a href="#example-one-scraping-blogposts" id="toc-example-one-scraping-blogposts" class="nav-link" data-scroll-target="#example-one-scraping-blogposts">Example one, scraping blogposts</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <section id="about-this-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="about-this-notebook">About this Notebook</h2>
+<p>This notebook is supposed to give you a deeper impression of the selenider library and compliment the presentation. In this notebook you will find the basics beyond the presentation as well as the full code example from the presentation.</p>
+<section id="selenider-tutorial-a-guide-to-web-scraping-and-browser-automation-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="selenider-tutorial-a-guide-to-web-scraping-and-browser-automation-in-r">Selenider Tutorial: A Guide to Web Scraping and Browser Automation in R</h3>
+<section id="introduction" class="level4">
+<h4 class="anchored" data-anchor-id="introduction">Introduction</h4>
+<p>Welcome to this tutorial on <strong>Selenider</strong>, an R package that empowers you to control a web browser programmatically. This functionality enables you to automate tasks, scrape data from websites, and test your web applications.</p>
+<p>The <code>selenider</code> package for R provides a powerful toolkit for interacting with websites through a web browser, making it a valuable asset for web scraping, website testing, and automating web-based tasks.</p>
+</section>
+</section>
+<section id="applications-beyond-web-scraping" class="level3">
+<h3 class="anchored" data-anchor-id="applications-beyond-web-scraping">Applications beyond Web Scraping</h3>
+<p>While our conversation primarily focused on web scraping, the sources and the features described above suggest that <code>selenider</code> can be used for various other purposes:</p>
+<ul>
+<li><strong>Website Testing:</strong> The <code>elem_expect()</code> and <code>elem_wait_until()</code> functions, along with the various conditions, can be leveraged to test website functionality, ensuring that elements behave as expected.</li>
+<li><strong>Automating Web Tasks:</strong> The ability to simulate user interactions like clicking links, filling forms, and navigating pages makes <code>selenider</code> suitable for automating repetitive web-based tasks.</li>
+</ul>
+</section>
+<section id="importance-in-the-context-of-r" class="level3">
+<h3 class="anchored" data-anchor-id="importance-in-the-context-of-r">Importance in the Context of R</h3>
+<p>The <code>selenider</code> package expands the capabilities of R for web interaction and data acquisition. By integrating web browser automation within the R environment, it facilitates tasks like:</p>
+<ul>
+<li><strong>Dynamic Website Scraping:</strong> <code>selenider</code> can handle websites that rely heavily on JavaScript and dynamic content loading, which are often challenging for traditional web scraping methods.</li>
+<li><strong>Data Journalism and Research:</strong> Researchers and journalists can use <code>selenider</code> to gather data from websites that do not provide APIs or are structured in a way that makes traditional scraping difficult.</li>
+</ul>
+</section>
+<section id="key-features-of-selenider" class="level3">
+<h3 class="anchored" data-anchor-id="key-features-of-selenider">Key Features of Selenider</h3>
+<section id="project-management" class="level4">
+<h4 class="anchored" data-anchor-id="project-management">Project Management</h4>
+<p>Prior to using Selenider, it’s important to structure your R projects effectively. Utilise RStudio projects, which keep all project-related files organised. A recommended folder structure includes:</p>
+<ul>
+<li><strong>data:</strong> This folder contains your data, with subfolders for “raw” (original data) and “processed” (data ready for analysis).</li>
+<li><strong>src:</strong> This folder stores your R scripts, organised to reflect your project’s workflow. Scripts should have clear names indicating their purpose (e.g., “2-preprocess-data”).</li>
+</ul>
+<p>Within your scripts, use relative file paths (e.g., “./data/processed.RDa”) to ensure your project is portable.</p>
+</section>
+<section id="setting-up-selenider" class="level4">
+<h4 class="anchored" data-anchor-id="setting-up-selenider">Setting Up Selenider</h4>
+<p>Begin by installing Selenider:</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("selenider")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("chromote")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(selenider)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+</section>
+<section id="initiating-a-selenider-session" class="level4">
+<h4 class="anchored" data-anchor-id="initiating-a-selenider-session">Initiating a Selenider Session</h4>
+<p>To start using Selenider, you need to create a session:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>session <span class="ot">&lt;-</span> <span class="fu">selenider_session</span>(<span class="st">"selenium"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This creates a local session accessible throughout your script. The session will automatically close when the script ends.</p>
+<p><strong>Important:</strong> If you create a session inside a function, it will close when the function ends. To use it outside the function, employ the <code>.env</code> argument to specify the environment where the session should persist.</p>
+<p>For instance:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_selenider_session <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">.env =</span> rlang<span class="sc">::</span><span class="fu">caller_env</span>()) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selenider_session</span>(<span class="st">"selenium"</span>, ..., <span class="at">.env =</span> .env)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="navigating-websites" class="level4">
+<h4 class="anchored" data-anchor-id="navigating-websites">Navigating Websites</h4>
+<ul>
+<li><strong>Browser Session Management:</strong> <code>selenider</code> allows you to start and manage a browser session using either “chromote” (the default) or “selenium” as the backend. This means you can control a web browser programmatically, mimicking human browsing behaviour. You can also set options like the timeout for the session. The session will be automatically closed when the script finishes running, but you can control the scope of the session using the <code>.env</code> argument.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">open_url</span>(<span class="st">"https://www.r-project.org/"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Navigation History:</strong></p>
+<ul>
+<li><strong><code>back()</code></strong>: Navigate to the previous page in the browsing history.</li>
+<li><strong><code>forward()</code></strong>: Move to the next page in history.</li>
+<li><strong><code>reload()</code></strong>: Refresh the current page.</li>
+</ul>
+</section>
+<section id="selecting-elements" class="level4">
+<h4 class="anchored" data-anchor-id="selecting-elements">Selecting Elements</h4>
+<p><strong><code>s()</code> Function:</strong></p>
+<ul>
+<li>Selects a single element using CSS selectors by default.</li>
+<li>Example: <code>header &lt;- s("#rStudioHeader")</code> selects the element with the ID “rStudioHeader”.</li>
+<li>Can also use XPath: <code>s(xpath = "//div/a")</code>.</li>
+</ul>
+<p><strong><code>ss()</code> Function:</strong></p>
+<ul>
+<li>Selects multiple elements.</li>
+<li>Example: <code>all_links &lt;- ss("a")</code> selects all anchor elements.</li>
+</ul>
+<p><strong>Finding Child Elements:</strong></p>
+<ul>
+<li><strong><code>find_element()</code></strong>: Locates a single child element.</li>
+<li><strong><code>find_elements()</code></strong>: Retrieves multiple child elements.</li>
+<li><strong>Chaining:</strong> Use the pipe operator (<code>|&gt;</code>) to chain these functions and define element paths.</li>
+</ul>
+<p><strong>Other Element Selection Functions:</strong></p>
+<ul>
+<li><strong><code>elem_children()</code></strong>: Finds child elements based on their relative position to another.</li>
+<li><strong><code>elem_ancestors()</code></strong>: Selects ancestor elements.</li>
+<li><strong><code>elem_filter()</code></strong>: Filters a collection of elements using a custom function.</li>
+<li><strong><code>elem_find()</code></strong>: Similar to <code>elem_filter()</code> but returns only the first matching element.</li>
+</ul>
+</section>
+<section id="interacting-with-elements" class="level4">
+<h4 class="anchored" data-anchor-id="interacting-with-elements">Interacting with Elements</h4>
+<p><strong>Lazy Evaluation:</strong></p>
+<p>Selenider elements are evaluated lazily. They are only located in the DOM when an action, property, or condition function is applied.</p>
+<p><strong>Actions:</strong></p>
+<ul>
+<li><strong><code>elem_click()</code></strong>: Performs a left-click.</li>
+<li><strong><code>elem_right_click()</code></strong>: Executes a right-click.</li>
+<li><strong><code>elem_double_click()</code></strong>: Double-clicks an element.</li>
+<li><strong><code>elem_hover()</code></strong>: Hovers the mouse over an element.</li>
+<li><strong><code>elem_scroll_to()</code></strong>: Scrolls the page to bring an element into view.</li>
+<li><strong><code>elem_set_value()</code></strong>: Sets the value of an input element.</li>
+<li><strong><code>elem_clear_value()</code></strong>: Clears the input value.</li>
+<li><strong><code>elem_submit()</code></strong>: Submits a form using any element within it.</li>
+</ul>
+<p><strong>Note:</strong> For links that open content in a new tab, manually navigate using <code>open_url()</code> for better reliability.</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li><strong><code>elem_name()</code></strong>: Retrieves the tag name (e.g., “div”).</li>
+<li><strong><code>elem_text()</code></strong>: Extracts the text content of an element.</li>
+<li><strong><code>elem_attr()</code></strong>: Gets the value of a specific attribute.</li>
+<li><strong><code>elem_attrs()</code></strong>: Returns all attributes as a list.</li>
+<li><strong><code>elem_value()</code></strong>: Fetches the “value” attribute.</li>
+<li><strong><code>elem_css_property()</code></strong>: Retrieves a CSS property value.</li>
+</ul>
+<p><strong>Conditions:</strong></p>
+<p>Conditions are predicate functions that immediately return <code>TRUE</code> or <code>FALSE</code> (or an error) without waiting for the element or condition. They are often used with <code>elem_expect()</code> and <code>elem_wait_until()</code> to introduce waiting mechanisms.</p>
+<p>Examples:</p>
+<ul>
+<li><strong><code>is_present()</code></strong>: Checks if an element exists in the DOM.</li>
+<li><strong><code>is_visible()</code></strong>: Verifies if an element is displayed.</li>
+<li><strong><code>is_enabled()</code></strong>: Confirms if an element is interactive.</li>
+</ul>
+<p><strong>Expectations:</strong></p>
+<ul>
+<li><strong><code>elem_expect()</code></strong>: Provides a testing interface. Waits until specified conditions are met for an element.</li>
+<li>Can use logical operators (<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>) with conditions.</li>
+<li>Example: <code>elem_expect(is_present(elem_1) || is_present(elem_2))</code> checks if either element exists.</li>
+</ul>
+<p>The sources do not have information about the format in the Git document. It may be helpful to consult the Git documentation for formatting guidance.</p>
+</section>
+</section>
+</section>
+<section id="let-us-understand-how-to-use-these-functions-for-web-scrapping" class="level2">
+<h2 class="anchored" data-anchor-id="let-us-understand-how-to-use-these-functions-for-web-scrapping">Let us understand how to use these functions for web scrapping</h2>
+<p>The <code>selenider</code> package in R provides a powerful way to interact with websites using a web browser, making it a great tool for web scraping. Here’s a tutorial based on the provided source on “Getting started with selenider”:</p>
+<p><strong>1. Starting a Session:</strong></p>
+<ul>
+<li>Before you start scraping, you need to initiate a browser session using <code>selenider_session()</code>.</li>
+<li>By default, <code>selenider</code> uses the <code>chromote</code> backend, but you can choose others like <code>selenium</code>.</li>
+<li>You can also set the timeout for web elements to load. <code>r     session &lt;- selenider_session("chromote", timeout = 10)</code></li>
+</ul>
+<p><strong>2. Navigating Websites:</strong></p>
+<ul>
+<li>Use <code>open_url()</code> to visit a specific web page. You can easily move back and forth through your browsing history using <code>back()</code> and <code>forward()</code>, or refresh the page with <code>reload()</code>. <code>r     open_url("https://www.r-project.org/")     open_url("https://www.tidyverse.org/")     back()     forward()     reload()</code></li>
+</ul>
+<p><strong>3. Selecting Elements:</strong></p>
+<ul>
+<li><code>selenider</code> leverages the power of CSS selectors and XPaths to pinpoint specific elements on a web page.</li>
+<li>Use <code>s()</code> to select a single element using a CSS selector (default) or an XPath. <code>r     header &lt;- s("#rStudioHeader")  # Selects element with id "rStudioHeader"     xpath_element &lt;- s(xpath = "//div/a")</code></li>
+<li>Use <code>ss()</code> to select multiple elements matching your selector. <code>r     all_links &lt;- ss("a") # Selects all anchor elements (&lt;a&gt;)</code></li>
+</ul>
+<p><strong>4. Finding Child Elements:</strong></p>
+<ul>
+<li>You can refine your element selection by targeting specific elements within a parent element.</li>
+<li><code>find_element()</code> retrieves a single child element, while <code>find_elements()</code> fetches multiple child elements. <code>r     tidyverse_title &lt;- s("#rStudioHeader") |&gt; find_element("div") |&gt; find_element(".productName")     menu_items &lt;- s("#rStudioHeader") |&gt; find_element("#menu") |&gt; find_elements(".menuItem")</code></li>
+</ul>
+<p><strong>5. Filtering Elements:</strong></p>
+<ul>
+<li><p><code>elem_filter()</code> and <code>elem_find()</code> allow you to filter element collections based on custom conditions.</p></li>
+<li><p><code>elem_find()</code> returns the first matching element, while <code>elem_filter()</code> returns all matches.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the blog link in the menu</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>menu_items <span class="sc">|&gt;</span> <span class="fu">elem_find</span>(<span class="fu">has_text</span>(<span class="st">"Blog"</span>)) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find specific hex badges</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">s</span>(<span class="st">".hexBadges"</span>) <span class="sc">|&gt;</span> <span class="fu">find_elements</span>(<span class="st">"img"</span>) <span class="sc">|&gt;</span> <span class="fu">elem_filter</span>(\(x) <span class="fu">substring</span>(<span class="fu">elem_attr</span>(x, <span class="st">"class"</span>), <span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">==</span> <span class="st">"r2"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+<p><strong>6. Interacting with Elements:</strong></p>
+<ul>
+<li><code>selenider</code> allows you to perform various actions on selected elements, simulating user interaction.</li>
+<li>Use <code>elem_click()</code>, <code>elem_right_click()</code>, <code>elem_double_click()</code>, and <code>elem_hover()</code> to click, right-click, double-click, or hover over an element. <code>r     s(".blurb") |&gt; find_element("a") |&gt; elem_scroll_to() |&gt; elem_click()</code></li>
+<li>For links opening in new tabs, it’s recommended to get the link URL using <code>elem_attr()</code> and open it manually with <code>open_url()</code> for greater reliability. <code>r     s(".packages") |&gt; find_elements("a") |&gt; elem_find(has_text("dplyr")) |&gt;          elem_attr("href") |&gt; open_url()</code></li>
+<li>Use <code>elem_set_value()</code> and <code>elem_clear_value()</code> to manipulate input fields. <code>r     s("input[type='search']") |&gt; elem_set_value("filter")</code></li>
+<li>You can submit forms using <code>elem_submit()</code>.</li>
+</ul>
+<p><strong>7. Extracting Information:</strong></p>
+<ul>
+<li>Retrieve an element’s tag name with <code>elem_name()</code>, text content with <code>elem_text()</code>, and attribute values with <code>elem_attr()</code> or all attributes with <code>elem_attrs()</code>.</li>
+<li>You can also access CSS properties using <code>elem_css_property()</code>.</li>
+</ul>
+<p><strong>8. Waiting and Expectations:</strong></p>
+<ul>
+<li><code>selenider</code> offers functions to handle dynamic content that might load with a delay.</li>
+<li><code>elem_expect()</code> waits until specified conditions are met for an element and throws an error if they are not met within the timeout.</li>
+<li><code>elem_wait_until()</code> performs similarly but returns <code>TRUE</code> or <code>FALSE</code> without raising an error. <code>r     s(".tagline") |&gt; elem_expect(is_present) |&gt; elem_expect(has_text("data science"))</code></li>
+</ul>
+<p><strong>9. Closing the Session:</strong></p>
+<ul>
+<li>Sessions close automatically when the script ends.</li>
+</ul>
+<p>The sources provided don’t specifically detail how to extract data for web scraping. To accomplish this, you would typically:</p>
+<ul>
+<li><strong>Identify the target elements containing the data you want.</strong></li>
+<li><strong>Use the appropriate functions like <code>elem_text()</code> or <code>elem_attr()</code> to retrieve the data from the elements.</strong></li>
+<li><strong>Store the extracted data in a suitable format like a data frame.</strong></li>
+</ul>
+<p>This tutorial provides a solid foundation for working with <code>selenider</code>. For further exploration, I recommend consulting the package documentation and online resources.</p>
+<section id="ethical-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="ethical-considerations">Ethical Considerations</h3>
+<p>It’s crucial to use <code>selenider</code> and other web scraping tools responsibly and ethically. This includes:</p>
+<ul>
+<li>Respecting website terms of service and <code>robots.txt</code> files.</li>
+<li>Avoiding excessively frequent requests to prevent overloading web servers.</li>
+<li>Being mindful of the privacy of website users and avoiding scraping personal information without consent.</li>
+</ul>
+</section>
+<section id="example-one-scraping-blogposts" class="level3">
+<h3 class="anchored" data-anchor-id="example-one-scraping-blogposts">Example one, scraping blogposts</h3>
+<p>Examples are the best way to learn something new, at least if you ask me. In the following you will be able to take a closer look on the ecxample that was mentioned in the presentation.</p>
+<p>Lets set up the session once more and set our startup dependencies</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(selenider)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start the session</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>session <span class="ot">&lt;-</span> <span class="fu">selenider_session</span>(<span class="st">"chromote"</span>, <span class="at">timeout =</span> <span class="dv">10</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Open the FDP blog article overview page</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">open_url</span>(<span class="st">"https://www.fdp.de/uebersicht/artikel"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>So what happend? We again opened up our session and then defined the website we want to scrape the blogposts from.</p>
+<p>In the next step we will focus on how to use the selector function for the first time and how to interact with what we selected. At the same time we will take care of something that happens quite a lot in scraping, having to interact with the cookie banner to be able to access the website.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle the cookie banner if it appears (check if it is present)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cookiebanner <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">'#consent-overlay-submit-all'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the cookie banner is present before clicking</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">elem_wait_until</span>(cookiebanner, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) {</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">elem_click</span>(cookiebanner)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reload</span>()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>Now that we have selected the ok button for the cookies, we can continue to collecting the data. To do that we need to think what we want to do on the website.</p>
+<ol type="1">
+<li>We want to get all blogposts on the websites</li>
+<li>We want to move through the website to load more packages</li>
+<li>We need to make sure that we can click the proper buttons and that we collect all the information on the posts</li>
+</ol>
+<p>to do that we wrote a funtion to loop over an <code>x</code> number of pages.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a data frame to store blog links, titles, dates, and summaries</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>all_blog_info <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="fu">character</span>(),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="fu">character</span>(),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">date =</span> <span class="fu">character</span>(),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">summary =</span> <span class="fu">character</span>(),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop for 3 pages (adjust as needed)</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Wait for articles to be present</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">elem_wait_until</span>(<span class="fu">s</span>(<span class="st">"a.mode-search"</span>), is_present, <span class="at">timeout =</span> <span class="dv">10</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract all articles</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  articles <span class="ot">&lt;-</span> <span class="fu">ss</span>(<span class="st">"a.mode-search"</span>)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if articles were found</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(articles) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span>  <span class="co"># Stop if no articles are found</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize a list to store article information</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  article_info <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Loop through each article and extract information</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_along</span>(articles)) {</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    article <span class="ot">&lt;-</span> articles[[j]]</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    info <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>({</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Extract the URL</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>      url <span class="ot">&lt;-</span> <span class="fu">elem_attr</span>(article, <span class="st">"href"</span>)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Extract the title</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>      title_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"h3"</span>)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>      title <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(title_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_text</span>(title_elem) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Extract the date</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>      date_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"time"</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>      date <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(date_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_attr</span>(date_elem, <span class="st">"datetime"</span>) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Extract the summary</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>      summary_elem <span class="ot">&lt;-</span> <span class="fu">find_element</span>(article, <span class="st">"p"</span>)</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>      summary <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">elem_wait_until</span>(summary_elem, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) <span class="fu">elem_text</span>(summary_elem) <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Return as a named list</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">link =</span> url, <span class="at">title =</span> title, <span class="at">date =</span> date, <span class="at">summary =</span> summary)</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>    }, <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Return NA values in case of error</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">link =</span> <span class="cn">NA</span>, <span class="at">title =</span> <span class="cn">NA</span>, <span class="at">date =</span> <span class="cn">NA</span>, <span class="at">summary =</span> <span class="cn">NA</span>)</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Append the info to the list</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    article_info[[j]] <span class="ot">&lt;-</span> info</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Combine the article info into a data frame</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>  page_info <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(article_info)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add this page's articles to the overall data frame</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>  all_blog_info <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_blog_info, page_info)</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Attempt to select the "Next" button</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>  next_button <span class="ot">&lt;-</span> <span class="fu">s</span>(<span class="st">"a[rel='next']"</span>)</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if the "Next" button is present before clicking</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">elem_wait_until</span>(next_button, is_present, <span class="at">timeout =</span> <span class="dv">5</span>)) {</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span>  <span class="co"># Stop if there is no next button</span></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Scroll to the "Next" button before clicking</span></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">elem_scroll_to</span>(next_button)</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Click the "Next" button</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">elem_click</span>(next_button)</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Wait for the next page to load</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">elem_wait_until</span>(<span class="fu">s</span>(<span class="st">"a.mode-search"</span>), is_present, <span class="at">timeout =</span> <span class="dv">10</span>)</span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div>
+<p>Lets inspect closer what we did:</p>
+<p>first we selected all of the articles, with the help of <code>articles &lt;- ss("a.mode-search")</code>, then we move forward to handle the content within those divs.</p>
+<p>The content within the different article previews is handled by us with the help of the <code>find_element()</code> function, and the <code>elem_wait_until</code> makes sure, that the different elemts are present. In summary we do this for all of out target elements. Now that we collected all of the elemnts we wanted to take from the page we can move to the next one with the help of <code>next_button &lt;- s("a[rel='next']")</code> we localise the button again. To be able to press it, we scroll the page with <code>elem_scroll_to</code> (so scrolling till the button is found) and then we click it again with the help of <code>elem_click</code>.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first 5 rows of the data frame as a nice table using kableExtra</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(all_blog_info, <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"FDP Blog Articles (First 5 Entries)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>FDP Blog Articles (First 5 Entries)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">link</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">title</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">date</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">/mehr-fairness-fuer-selbststaendige</td>
+<td style="text-align: left;">Mehr Fairness für Selbstständige</td>
+<td style="text-align: left;">2024-10-25</td>
+<td style="text-align: left;">Finanzminister Christian Lindner möchte im Rahmen des geplanten Altersvorsorgedepots auch Selbstständige fördern. Der FDP-Chef ist überzeugt: „Auch Selbstständige verdienen Fairness.“</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/wir-brauchen-eine-echte-wachstumswende</td>
+<td style="text-align: left;">Wir brauchen eine echte Wachstumswende</td>
+<td style="text-align: left;">2024-10-24</td>
+<td style="text-align: left;">Der Bund wird im kommenden Jahr zwar etwas mehr Steuern einnehmen, doch im Haushaltsentwurf sei das schon eingerechnet, sagt Bundesfinanzminister Christian Lindner. Es gebe "keine Spielräume für Verteilungspolitik" und "neue Ausgabenwünsche".</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/quick-freeze-statt-massenueberwachung</td>
+<td style="text-align: left;">Quick-Freeze statt Massenüberwachung</td>
+<td style="text-align: left;">2024-10-24</td>
+<td style="text-align: left;">Bundesjustizminister Marco Buschmann hat seinen Gesetzentwurf zum Quick-Freeze-Verfahren veröffentlicht. Das Verfahren ist laut Buschmann eine effektive, rechtssichere und grundrechtskonforme Alternative zur Vorratsdatenspeicherung.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/verkehrspolitik-bedarfsorientiert-statt-ideologisch</td>
+<td style="text-align: left;">Verkehrspolitik: Bedarfsorientiert statt ideologisch</td>
+<td style="text-align: left;">2024-10-24</td>
+<td style="text-align: left;">Verkehrsminister Volker Wissing hat die Verkehrsprognose für das Jahr 2040 vorgestellt und dabei betont, wie wichtig es ist, die Verkehrspolitik an den tatsächlichen Bedürfnissen auszurichten – basierend auf Fakten, nicht auf Ideologien. Alle Verkehrsträger müssten ausgebaut werden.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/wir-brauchen-wirkungsvolle-strukturreformen</td>
+<td style="text-align: left;">Wir brauchen wirkungsvolle Strukturreformen</td>
+<td style="text-align: left;">2024-10-23</td>
+<td style="text-align: left;">Deutschland bleibt nach Prognose des IWF beim Wirtschaftswachstum Schlusslicht der G7-Staaten. FDP-Parteichef Christian Lindner weist auf dringend nötige Maßnahmen zur Stärkung der Wettbewerbsfähigkeit Deutschlands hin und fordert mehr soziale Marktwirtschaft.</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div></div>
+<p>Now we can finaly take a look at the data that we have collected. By displaying the head with the help of kable Extra.</p>
+</section>
+</section>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>  </div> <!-- /content --> 
+  
+</body></html>

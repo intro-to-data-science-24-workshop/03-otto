@@ -1,0 +1,171 @@
+---
+title: "selenider"
+output: html_document
+date: "2024-10-25"
+---
+
+---
+
+# Step 1: Installation and Setup
+
+## Install Packages
+
+Ensure that the **selenider** and **chromote** packages are installed:
+
+```{r}
+#install.packages("selenider")
+#install.packages("chromote")
+```
+Create a browser session using chromote
+
+```{r}
+library(selenider)
+session <- selenider_session("chromote", timeout = 10)
+
+```
+
+**Explanation:**
+
+- `selenider_session()` starts a new browser session.
+- `timeout = 10` sets the wait time to 10 seconds.
+
+# Step 2: Navigate to the Laptops Page
+
+Open the main e-commerce page created specifically for the tutorial
+
+```{r}
+open_url("https://webscraper.io/test-sites/e-commerce/more")
+```
+
+```{r}
+# Click on the "Computers" category
+ss(".category-link") |>
+  elem_find(has_text("Computers")) |>
+  elem_click()
+```
+
+```{r}
+# Click on the "Laptops" subcategory
+ss("a.subcategory-link") |>
+  elem_find(has_text("Laptops")) |>
+  elem_click()
+```
+
+**Explanation:**
+
+- `elem_click()` simulates a click on the element.
+- `ss()` is used to select **multiple elements** that match a specified CSS selector. It returns a list of elements, allowing you to perform actions on each one individually or iterate over them.
+- `s()` is used to select a **single element** that matches a specified CSS selector. It is useful when you want to target a unique or specific element on the page.
+
+## Step 3: Collect Data
+
+```{r}
+# Collect data about products
+products <- ss(".thumbnail")
+product_data <- list()
+
+```
+
+
+```{r}
+# Loop through each product to extract details
+for (i in seq_along(products)) {
+  product <- products[[i]]
+  
+  # Extract the title, price, and description for each product
+  title <- product |> find_element(".title") |> elem_text()
+  price <- product |> find_element(".price") |> elem_text()
+  description <- product |> find_element(".description") |> elem_text()
+  
+  # Store the extracted data in a list
+  product_data[[i]] <- list(
+    title = title,
+    price = price,
+    description = description
+  )
+}
+```
+
+
+```{r}
+# Convert the collected data into a data frame
+product_df <- do.call(rbind, lapply(product_data, as.data.frame))
+
+# View the retrieved data
+knitr::kable(product_df, format = "html")
+```
+
+## Step 4: Use elem_expect() to Verify the Presence of the "More" Button
+
+Before clicking the "More" button, ensure that it is present on the page:
+
+```{r}
+# Find the "More" button
+more_button <- s("a.ecomerce-items-scroll-more")
+
+# Verify that the "More" button is present on the page
+elem_expect(
+  more_button,
+  is_present()
+)
+```
+
+**Explanation:**
+
+- `is_present()` checks if the element exists on the page.
+- If the button is not found, `elem_expect()` will raise an error with the specified message.
+
+## Step 5: Click the "More" Button and Wait for New Products to Load
+
+```{r}
+# Click the "More" button
+more_button |> elem_click()
+
+# Wait until new products are loaded
+elem_wait_until(
+  length(ss(".thumbnail")) > length(products),
+  timeout = 20
+)
+```
+
+
+```{r}
+# Update the list of products and extract the data
+products <- ss(".thumbnail")
+product_data <- list()
+for (i in seq_along(products)) {
+  product <- products[[i]]
+  
+  # Extract the title, price, and description for each product
+  title <- product |> find_element(".title") |> elem_text()
+  price <- product |> find_element(".price") |> elem_text()
+  description <- product |> find_element(".description") |> elem_text()
+  
+  # Store the extracted data in a list
+  product_data[[i]] <- list(
+    title = title,
+    price = price,
+    description = description
+  )
+}
+
+# Convert the data into a data frame
+product_df <- do.call(rbind, lapply(product_data, as.data.frame))
+
+# View the retrieved data
+knitr::kable(product_df, format = "html")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

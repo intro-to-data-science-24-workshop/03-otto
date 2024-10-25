@@ -23,6 +23,7 @@ eval: false
 :::{.fragment .fade-in-then-semi-out}
 
 What is the difference?
+
 :::
 :::
 
@@ -33,24 +34,20 @@ What is the difference?
 
 
 :::: {.columns}
-
 ::: {.column width="50%" .incremental}
 Classical Webscraping
 
-- HTML is static and fully loaded on the server-side
-- Calssical usecases: Blogs, Newspaper 
+- HTML is static and fully loaded on the server side
+- Classical use cases: Blogs, Newspapers
 - No interaction with the elements of the site to load content
 :::
-
 ::: {.column width="50%" .incremental}
 Dynamic Webscraping
 
 - Content is rendered via JavaScript on the client side
-- Infinite scroling sites, Single page applications
-- Interactions like, click scroll and so on
-
+- Infinite scrolling sites, Single-page applications
+- Interactions like click, scroll, and so on
 :::
-
 ::::
 
 
@@ -62,14 +59,14 @@ Dynamic Webscraping
 ::: {.fragment .fade-in}
 ::: {.fragment .highlight-red}
 ::: {.fragment .semi-fade-out}
-When content is not rendered, we cant just access it
+When content is not rendered, we can't just access it
 :::
 :::
 :::
 
 ::: {.fragment .fade-in}
 ::: {.fragment .highlight-green}
-therefore we need to simulate the interaction, like a person with a browser
+Therefore we need to simulate the interaction, like a person with a browser
 :::
 :::
 
@@ -81,18 +78,19 @@ therefore we need to simulate the interaction, like a person with a browser
 
 ## Why Selenider?
 
-*   **Selenider** is an R package for browser automation and web scraping
-*   It provides a simple and powerful way to interact with websites like a human user
-*   We can select elements, extract data, and even simulate user actions like clicking and scroling
+*   **Selenider** is an R package for browser automation and web scraping.
+*   It provides a simple and powerful way to interact with websites like a human user.
+*   We can select elements, extract data, and even simulate user actions like clicking and scrolling.
 
 # Setting Up Selenider
 
 ## Installation{auto-animate="true"}
-Selenider often throws problems when installing, to tackle these we will do the following
+Selenider often throws problems when installing. To tackle these, we will do the following
 
 ## Installation{auto-animate="true"}
 
-Selenider often throws problems when installing, to tackle these we will do the following
+Selenider often throws problems when installing. To tackle these, we will do the following
+
 
 ```{.r code-line-numbers="1|2|3|"}
 install.packages("renv")
@@ -103,7 +101,7 @@ renv::activate()
 
 ## Installation{auto-animate="true"}
 
-Selenider often throws problems when installing, to tackle these we will do the following
+Selenider often throws problems when installing. To tackle these, we will do the following
 
 ```{.r code-line-numbers="5|6|7|"}
 install.packages("renv")
@@ -158,18 +156,18 @@ session <- selenider_session(
 :::
 
 ::: {.fragment .fade-in}
-- A perfect usecase for selenider! 
+- A perfect usecase for **selenider**! 
 :::
 
 
 ## The Code{auto-animate="true"}
 
 ::: {.fragment .fade-in}
-to start we will take care of something that you will encounter a lot
+To start, we will take care of something that you will encounter a lot.
 :::
 
 ::: {.fragment .fade-in-then-highlight-red }
-cookiebanner
+cookie banner
 :::
 
 ::: {.fragment}
@@ -207,24 +205,23 @@ if (elem_wait_until(cookiebanner, is_present, timeout = 5)) {
 ## The Code
 
 ::: {.fragment}
-so what did we do?
+So what did we do?
 :::
 
 ::: {.fragment}
 ::: {.incremental}
 ::: {.fade-in-then-semi-out}
-- we used `open_url` to open the website
-- then we used the `s()` slector to get an elemtent
-- next we took that cookie element `cookiebanner` 
-- checked wether it is there, and then clicked it with `elem_click`
+- We used `open_url` to open the website.
+- Then we used the `s()` selector to get an element.
+- Next, we took that cookie element `cookiebanner`.
+- Checked whether it is there, and then clicked it with `elem_click`.
 :::
 :::
 :::
 
 ## The Code{.center}
 
-Great! Now that we handled that we can move to the fun part. 
-
+Great! Now that we have handled that, we can move to the fun part.
 
 ## Selecting posts
 
