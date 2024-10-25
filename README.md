@@ -20,6 +20,8 @@ The complete Notebook can be found
 
 - [as an article](https://html-preview.github.io/?url=https://github.com/intro-to-data-science-24-workshop/03-otto/blob/main/newnotebook/_manuscript/index.html)
 - [as an interactive notebook](https://html-preview.github.io/?url=https://raw.githubusercontent.com/intro-to-data-science-24-workshop/03-otto/main/newnotebook/_manuscript/index-preview.html)
+
+
 And the interactive presentation
 
 - [The interactive presentation](https://html-preview.github.io/?url=https://github.com/intro-to-data-science-24-workshop/03-otto/blob/main/presentation.html#/1/2)
