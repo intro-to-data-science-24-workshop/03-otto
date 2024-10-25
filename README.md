@@ -16,11 +16,11 @@ What you will be able to do after this course, click buttons without clicking th
 
 ## Tutorial
 
-The session is accompanied by a tutorial, which can be accessed [here](https://rawcdn.githack.com/intro-to-data-science-24/labs/02e4175f0b23aef7e2c79ca67cf1e7da29520e2b/session-03-tidyverse-functions/3-tidyverse-functions.html).
 The complete Notebook can be found
 
 - [as an article](https://html-preview.github.io/?url=https://github.com/intro-to-data-science-24-workshop/03-otto/blob/main/newnotebook/_manuscript/index.html)
 - [as an interactive notebook](https://html-preview.github.io/?url=https://raw.githubusercontent.com/intro-to-data-science-24-workshop/03-otto/main/newnotebook/_manuscript/index-preview.html)
+And the interactive presentation
 
 - [The interactive presentation](https://html-preview.github.io/?url=https://github.com/intro-to-data-science-24-workshop/03-otto/blob/main/presentation.html#/1/2)
 
