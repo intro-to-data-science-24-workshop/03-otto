@@ -28,7 +28,7 @@ And the interactive presentation
 ## Instructors
 
 - [Paul Elvis Otto](https://paul-elvis.tech)
-- Aditi (https://github.com/aditi3417)
+- Aditi [Github](https://github.com/aditi3417)
 
 ## Further resources
 As selenider is a relative small library, there arent that many good resources but it has a realy good documentation.
