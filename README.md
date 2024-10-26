@@ -48,6 +48,7 @@ The material in this repository is made available under the [MIT license](http:/
 ## Statement of contributions
 
 **Paul Elvis Otto** prepared the practice material, post-processed the recording, made the presentation, made the example and post-processed the guide
+
 **Aditi J** prepared the description of Selendier Package.
 
 
