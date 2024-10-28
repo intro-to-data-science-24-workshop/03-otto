@@ -52,4 +52,5 @@ The material in this repository is made available under the [MIT license](http:/
 
 **Aditi J** prepared the description of Selendier Package.
 
+**Polina Ianina** created a tutorial.
 
