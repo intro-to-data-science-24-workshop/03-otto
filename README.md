@@ -29,6 +29,7 @@ And the interactive presentation
 
 - [Paul Elvis Otto](https://paul-elvis.tech)
 - Aditi [Github](https://github.com/aditi3417)
+- Polina [Github](https://github.com/YaPolina)
 
 ## Further resources
 As selenider is a relative small library, there arent that many good resources but it has a realy good documentation.
