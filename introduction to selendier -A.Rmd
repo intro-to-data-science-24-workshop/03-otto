@@ -1,0 +1,316 @@
+---
+title: "Introduction to selenider"
+output: html_document
+date: "2024-10-25"
+---
+
+```{=html}
+<style>
+.h1,h2,h3 {
+color:#2f1a61;
+}
+
+.subtitle, section.normal {
+color:#291854;
+}
+
+.title {
+color:#cc0065;
+}
+
+.nav-pills>li>a{
+color: #2f1a61;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+color: #fff;
+background-color: #2f1a61;
+}
+
+.nav-tabs>li>a{
+color: #2f1a61;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {
+color: #fff;
+background-color: #2f1a61;
+}
+
+</style>
+
+
+
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+```
+
+### Selenider Tutorial: A Guide to Web Scraping and Browser Automation in R
+
+#### Introduction
+
+Welcome to this tutorial on **Selenider**, an R package that empowers you to control a web browser programmatically. This functionality enables you to automate tasks, scrape data from websites, and test your web applications.
+
+The `selenider` package for R provides a powerful toolkit for interacting with websites through a web browser, making it a valuable asset for web scraping, website testing, and automating web-based tasks. 
+
+### Applications beyond Web Scraping
+
+While our conversation primarily focused on web scraping, the sources and the features described above suggest that `selenider` can be used for various other purposes:
+
+*   **Website Testing:**  The `elem_expect()` and `elem_wait_until()` functions, along with the various conditions, can be leveraged to test website functionality, ensuring that elements behave as expected. 
+*   **Automating Web Tasks:** The ability to simulate user interactions like clicking links, filling forms, and navigating pages makes `selenider` suitable for automating repetitive web-based tasks.
+
+### Importance in the Context of R
+
+The `selenider` package expands the capabilities of R for web interaction and data acquisition. By integrating web browser automation within the R environment, it facilitates tasks like:
+
+*   **Dynamic Website Scraping:**  `selenider` can handle websites that rely heavily on JavaScript and dynamic content loading, which are often challenging for traditional web scraping methods.
+*   **Data Journalism and Research:** Researchers and journalists can use `selenider` to gather data from websites that do not provide APIs or are structured in a way that makes traditional scraping difficult. 
+
+
+### Key Features of Selenider
+
+
+#### Project Management
+
+Prior to using Selenider, it's important to structure your R projects effectively.  Utilise RStudio projects, which keep all project-related files organised. A recommended folder structure includes:
+
+*   **data:** This folder contains your data, with subfolders for "raw" (original data) and "processed" (data ready for analysis).
+*   **src:** This folder stores your R scripts, organised to reflect your project's workflow. Scripts should have clear names indicating their purpose (e.g., "2-preprocess-data").
+
+Within your scripts, use relative file paths (e.g., "./data/processed.RDa") to ensure your project is portable.
+
+#### Setting Up Selenider
+
+Begin by installing Selenider:
+
+```{r}
+#install.packages("selenider")
+#install.packages("chromote")
+
+library(selenider)
+```
+
+#### Initiating a Selenider Session
+
+To start using Selenider, you need to create a session:
+
+```r
+session <- selenider_session("selenium") 
+```
+
+This creates a local session accessible throughout your script. The session will automatically close when the script ends. 
+
+**Important:** If you create a session inside a function, it will close when the function ends. To use it outside the function, employ the `.env` argument to specify the environment where the session should persist. 
+
+For instance:
+
+```r
+my_selenider_session <- function(..., .env = rlang::caller_env()) {
+  selenider_session("selenium", ..., .env = .env)
+}
+```
+
+#### Navigating Websites
+
+*   **Browser Session Management:** `selenider` allows you to start and manage a browser session using either "chromote" (the default) or "selenium" as the backend. This means you can control a web browser programmatically, mimicking human browsing behaviour. You can also set options like the timeout for the session. The session will be automatically closed when the script finishes running, but you can control the scope of the session using the `.env` argument.
+
+```r
+open_url("https://www.r-project.org/") 
+```
+
+**Navigation History:**
+
+*   **`back()`**: Navigate to the previous page in the browsing history.
+*   **`forward()`**: Move to the next page in history.
+*   **`reload()`**: Refresh the current page.
+
+#### Selecting Elements
+
+**`s()` Function:**
+
+*   Selects a single element using CSS selectors by default.
+*   Example: `header <- s("#rStudioHeader")` selects the element with the ID "rStudioHeader".
+*   Can also use XPath: `s(xpath = "//div/a")`.
+
+**`ss()` Function:**
+
+*   Selects multiple elements.
+*   Example: `all_links <- ss("a")` selects all anchor elements.
+
+**Finding Child Elements:**
+
+*   **`find_element()`**: Locates a single child element.
+*   **`find_elements()`**: Retrieves multiple child elements.
+*   **Chaining:** Use the pipe operator (`|>`) to chain these functions and define element paths.
+
+**Other Element Selection Functions:**
+
+*   **`elem_children()`**: Finds child elements based on their relative position to another.
+*   **`elem_ancestors()`**:  Selects ancestor elements.
+*   **`elem_filter()`**: Filters a collection of elements using a custom function.
+*   **`elem_find()`**: Similar to `elem_filter()` but returns only the first matching element.
+
+#### Interacting with Elements
+
+**Lazy Evaluation:**
+
+Selenider elements are evaluated lazily. They are only located in the DOM when an action, property, or condition function is applied.
+
+**Actions:**
+
+*   **`elem_click()`**: Performs a left-click.
+*   **`elem_right_click()`**: Executes a right-click.
+*   **`elem_double_click()`**: Double-clicks an element.
+*   **`elem_hover()`**: Hovers the mouse over an element.
+*   **`elem_scroll_to()`**: Scrolls the page to bring an element into view.
+*   **`elem_set_value()`**: Sets the value of an input element.
+*   **`elem_clear_value()`**: Clears the input value.
+*   **`elem_submit()`**: Submits a form using any element within it.
+
+**Note:** For links that open content in a new tab, manually navigate using `open_url()` for better reliability.
+
+**Properties:**
+
+*   **`elem_name()`**: Retrieves the tag name (e.g., "div").
+*   **`elem_text()`**: Extracts the text content of an element.
+*   **`elem_attr()`**:  Gets the value of a specific attribute.
+*   **`elem_attrs()`**: Returns all attributes as a list.
+*   **`elem_value()`**: Fetches the "value" attribute.
+*   **`elem_css_property()`**: Retrieves a CSS property value.
+
+**Conditions:**
+
+Conditions are predicate functions that immediately return `TRUE` or `FALSE` (or an error) without waiting for the element or condition. They are often used with `elem_expect()` and `elem_wait_until()` to introduce waiting mechanisms. 
+
+Examples:
+
+*   **`is_present()`**: Checks if an element exists in the DOM.
+*   **`is_visible()`**: Verifies if an element is displayed.
+*   **`is_enabled()`**: Confirms if an element is interactive.
+
+**Expectations:**
+
+*   **`elem_expect()`**: Provides a testing interface. Waits until specified conditions are met for an element.
+*   Can use logical operators (`&&`, `||`, `!`) with conditions.
+*   Example: `elem_expect(is_present(elem_1) || is_present(elem_2))` checks if either element exists.
+
+The sources do not have information about the format in the Git document. It may be helpful to consult the Git documentation for formatting guidance. 
+
+
+
+
+## Let us understand how to use these functions for web scrapping
+
+
+The `selenider` package in R provides a powerful way to interact with websites using a web browser, making it a great tool for web scraping. Here's a tutorial based on the provided source on "Getting started with selenider":
+
+**1. Starting a Session:**
+
+*   Before you start scraping, you need to initiate a browser session using `selenider_session()`.
+*   By default, `selenider` uses the `chromote` backend, but you can choose others like `selenium`.
+*   You can also set the timeout for web elements to load.
+    ```r
+    session <- selenider_session("chromote", timeout = 10) 
+    ```
+
+**2. Navigating Websites:**
+
+*   Use `open_url()` to visit a specific web page. You can easily move back and forth through your browsing history using `back()` and `forward()`, or refresh the page with `reload()`.
+    ```r
+    open_url("https://www.r-project.org/")
+    open_url("https://www.tidyverse.org/")
+    back()
+    forward()
+    reload()
+    ```
+
+**3. Selecting Elements:**
+
+*   `selenider` leverages the power of CSS selectors and XPaths to pinpoint specific elements on a web page.
+*   Use `s()` to select a single element using a CSS selector (default) or an XPath.
+    ```r
+    header <- s("#rStudioHeader")  # Selects element with id "rStudioHeader"
+    xpath_element <- s(xpath = "//div/a") 
+    ```
+*   Use `ss()` to select multiple elements matching your selector.
+    ```r
+    all_links <- ss("a") # Selects all anchor elements (<a>)
+    ```
+
+**4. Finding Child Elements:**
+
+*   You can refine your element selection by targeting specific elements within a parent element.
+*   `find_element()` retrieves a single child element, while `find_elements()` fetches multiple child elements.
+    ```r
+    tidyverse_title <- s("#rStudioHeader") |> find_element("div") |> find_element(".productName")
+    menu_items <- s("#rStudioHeader") |> find_element("#menu") |> find_elements(".menuItem") 
+    ```
+
+**5. Filtering Elements:**
+
+*   `elem_filter()` and `elem_find()` allow you to filter element collections based on custom conditions.
+*   `elem_find()` returns the first matching element, while `elem_filter()` returns all matches.
+    ```r
+    # Find the blog link in the menu
+    menu_items |> elem_find(has_text("Blog")) 
+
+    # Find specific hex badges
+    s(".hexBadges") |> find_elements("img") |> elem_filter(\(x) substring(elem_attr(x, "class"), 1, 2) == "r2") 
+    ```
+
+**6. Interacting with Elements:**
+
+*   `selenider` allows you to perform various actions on selected elements, simulating user interaction.
+*   Use `elem_click()`, `elem_right_click()`, `elem_double_click()`, and `elem_hover()` to click, right-click, double-click, or hover over an element.
+    ```r
+    s(".blurb") |> find_element("a") |> elem_scroll_to() |> elem_click() 
+    ```
+*   For links opening in new tabs, it's recommended to get the link URL using `elem_attr()` and open it manually with `open_url()` for greater reliability.
+    ```r
+    s(".packages") |> find_elements("a") |> elem_find(has_text("dplyr")) |> 
+        elem_attr("href") |> open_url() 
+    ```
+*   Use `elem_set_value()` and `elem_clear_value()` to manipulate input fields.
+    ```r
+    s("input[type='search']") |> elem_set_value("filter") 
+    ```
+*   You can submit forms using `elem_submit()`.
+
+**7. Extracting Information:**
+
+*   Retrieve an element's tag name with `elem_name()`, text content with `elem_text()`, and attribute values with `elem_attr()` or all attributes with `elem_attrs()`.
+*   You can also access CSS properties using `elem_css_property()`.
+
+**8. Waiting and Expectations:**
+
+*   `selenider` offers functions to handle dynamic content that might load with a delay.
+*   `elem_expect()` waits until specified conditions are met for an element and throws an error if they are not met within the timeout.
+*   `elem_wait_until()` performs similarly but returns `TRUE` or `FALSE` without raising an error.
+    ```r
+    s(".tagline") |> elem_expect(is_present) |> elem_expect(has_text("data science"))
+    ```
+
+**9. Closing the Session:**
+
+*   Sessions close automatically when the script ends.
+
+The sources provided don't specifically detail how to extract data for web scraping. To accomplish this, you would typically:
+
+*   **Identify the target elements containing the data you want.**
+*   **Use the appropriate functions like `elem_text()` or `elem_attr()` to retrieve the data from the elements.**
+*   **Store the extracted data in a suitable format like a data frame.**
+
+This tutorial provides a solid foundation for working with `selenider`. For further exploration, I recommend consulting the package documentation and online resources.
+
+### Ethical Considerations
+
+It's crucial to use `selenider` and other web scraping tools responsibly and ethically. This includes:
+
+*   Respecting website terms of service and `robots.txt` files.
+*   Avoiding excessively frequent requests to prevent overloading web servers.
+*   Being mindful of the privacy of website users and avoiding scraping personal information without consent. 
+
+
